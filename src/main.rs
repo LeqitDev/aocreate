@@ -11,14 +11,21 @@ use std::env;
 async fn main() {
     let args: Vec<String> = env::args().collect();
     let args_length: usize = args.len();
-    let _new_arg = String::from("new");
-    let _project_arg = String::from("project");
 
+    // process the command-line args
     if args_length > 1 {
         match args[1].as_str() {
+            // Create new project
             "year" => {
                 let mut name = String::from("");
                 let mut year: Option<i32> = None;
+
+                // year [year(2015-now)] [name]
+                // year [year(2015-now)]            --> year year year
+                // year                             --> year current_year current_year
+
+                // TODO: clamp the possible year
+
                 if args_length > 3 {
                     name = args[3].clone();
                     year = Some(args[2].parse::<i32>().unwrap());
@@ -26,10 +33,16 @@ async fn main() {
                     name = args[2].clone();
                     year = Some(args[2].parse::<i32>().unwrap());
                 }
+
                 create_project(name, year);
             },
+            // Create new day in the project
             "day" => {
                 let now: DateTime<Local> = Local::now();
+
+                // day [day(1-25)]
+                // day              --> day current_day
+
                 if args_length > 2 {
                     match args[2].as_str() {
                         "-1" => {
@@ -50,9 +63,7 @@ async fn main() {
                     create_day(now.day()).await;
                 }
             },
-            &_ => {
-
-            }
+            &_ => (),
         }
     }
 }

@@ -1,8 +1,12 @@
 use std::{path::Path, collections::HashMap, fs, io::Write};
 use config::{Config, ConfigError, File, FileFormat};
 
+// Get a value from the AoCreate.toml from inside the project directories
+
 pub fn get_config_value(key: &str) -> Result<String, ConfigError> {
     let path;
+
+    // Search the AoCreate.toml
 
     if Path::new("AoCreate.toml").exists() {
         path = "AoCreate.toml";
@@ -12,11 +16,14 @@ pub fn get_config_value(key: &str) -> Result<String, ConfigError> {
         return Err(ConfigError::NotFound("AoCreate.toml not found. Please try this in the project root directory!".to_string()))
     }
 
+    // Build the config (https://docs.rs/config/latest/config/builder/struct.ConfigBuilder.html)
+
     let builder = Config::builder()
         .add_source(File::new(path, FileFormat::Toml));
     
     match builder.build() {
         Ok(config) => {
+            // Get and return the actual value
             return config.get(key);
         },
         Err(e) => {
@@ -24,6 +31,9 @@ pub fn get_config_value(key: &str) -> Result<String, ConfigError> {
         }
     }
 }
+/*
+
+// Set a value to the AoCreate.toml from inside the project directories
 
 pub fn set_config_value(key: &str, value: &str) -> Result<(), ConfigError>  {
     let path;
@@ -38,12 +48,17 @@ pub fn set_config_value(key: &str, value: &str) -> Result<(), ConfigError>  {
 
     return _set_config_value_raw(key, value, path);
 }
+*/
+
+// Set a value to the AoCreate.toml from outside the project directories
 
 pub fn set_config_value_outside(key: &str, value: &str, path: &str) -> Result<(), ConfigError>  {
     return _set_config_value_raw(key, value, path);
 }
 
 pub fn _set_config_value_raw(key: &str, value: &str, path: &str) -> Result<(), ConfigError> {
+
+    // Build config and override the value of key (https://docs.rs/config/latest/config/builder/struct.ConfigBuilder.html#method.set_override)
 
     let builder = Config::builder()
         .add_source(File::new(path, FileFormat::Toml))
@@ -58,6 +73,8 @@ pub fn _set_config_value_raw(key: &str, value: &str, path: &str) -> Result<(), C
                     return Err(ConfigError::NotFound("AoCreate.toml not found. Please try this in the project root directory!".to_string()));
                 }
             };
+
+            // Store the edited config
 
             let toml_config = toml::to_string(&_config.try_deserialize::<HashMap<String, String>>().unwrap()).unwrap();
 
