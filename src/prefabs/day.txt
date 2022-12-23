@@ -1,0 +1,21 @@
+/*
+ * Welcome at Day $day
+ *
+ * Checkout the Challenge at https://adventofcode.com/$year/$day.
+ */
+
+use std::fs;
+
+fn $wday(input: &str) {
+
+}
+
+pub fn $wday_test() {
+    let input = fs::read_to_string("./src/$wday/example.txt").expect("Couldn't get the example input file!");
+    $wday(input.as_str());
+}
+
+pub fn $wday_run() {
+    let input = fs::read_to_string("./src/$wday/input.txt").expect("Couldn't get the real input file!");
+    $wday(input.as_str());
+}
