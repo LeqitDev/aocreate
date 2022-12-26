@@ -12,7 +12,7 @@ pub async fn get_input(year: &str, day: &str) -> String {
     // println!("{}", url);
     // Set a Session cookie to authenticate the request
     // TODO: Change/require cookie (Cookie valid for 2 years)
-    let resp = client.get(url).header("Cookie", "session=53616c7465645f5f1f9aaf0a4244fb69298b91519c47f6b151f4864168231b2d742ee7522080eb16632b601f238e5b127673983a45e3acf812e92c4fdabd391f").send().await.unwrap();
+    let resp = client.get(url).header("Cookie", "session=/* Here you have to place your cookie */").send().await.unwrap();
     assert!(resp.status().is_success());
 
     // read and return the content
@@ -29,7 +29,7 @@ pub async fn get_example(year: &str, day: &str) -> String {
     // println!("{}", url);
     // Set a Session cookie to authenticate the request
     // TODO: Change/require cookie (Cookie valid for 2 years)
-    let response = client.get(url).header("Cookie", "session=53616c7465645f5f1f9aaf0a4244fb69298b91519c47f6b151f4864168231b2d742ee7522080eb16632b601f238e5b127673983a45e3acf812e92c4fdabd391f").send().await.unwrap();
+    let response = client.get(url).header("Cookie", "session=/* Here you have to place your cookie */").send().await.unwrap();
     assert!(response.status().is_success());
 
     // get the site content
